@@ -23,7 +23,7 @@ class Menutree{
         foreach($array as $v) {
             $c[]=$v[$id];
         }
-        //筛选有效列表 （删除 不为根目录 并且父目录不存在 或父元素等于其自身）
+        //筛选有效列表 （删除：不为根目录、并且父目录不存在、或父元素等于其自身）
         while($l){
             $l--;
             if(($array[$l][$this->parent]!=0 && !in_array($array[$l][$this->parent],$c,true))||$array[$l][$this->id] == $array[$l][$this->parent]){
@@ -43,7 +43,7 @@ class Menutree{
 
         while($l){
             $l--;
-            //如果不为根目录
+            //子目录
             if($array[$l][$this->parent]){
                 if(isset($map[$array[$l][$this->parent]])){
                     $map[$array[$l][$this->id]]=&$map[$array[$l][$this->parent]][$this->children][$array[$l][$this->id]];
@@ -51,7 +51,7 @@ class Menutree{
                     array_splice($array,$l,1);
                 }
             }
-            //如果为根目录
+            //根目录
             else{
                 $menu[$array[$l][$this->id]]=$array[$l];
                 $map[$array[$l][$this->id]]=&$menu[$array[$l][$this->id]];
@@ -59,7 +59,7 @@ class Menutree{
             }
 
         }
-        //迭代整理
+        //递归
         return $this->handle($array,$menu,$map);
 
     }
